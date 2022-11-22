@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.xml">
+        <edmx:Include Alias="Aggregation" Namespace="Org.OData.Aggregation.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+        <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="AgriExports" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Procurement" EntityType="AgriExports.Procurement">
+                    <NavigationPropertyBinding Path="Expense_curr_key" Target="Currencies"/>
+                </EntitySet>
+                <EntitySet Name="Products" EntityType="AgriExports.Products">
+                    <NavigationPropertyBinding Path="ProductItem" Target="YieldPerArea1"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="YieldPerArea1" EntityType="AgriExports.YieldPerArea1">
+                    <NavigationPropertyBinding Path="Products" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="ReviewStatus" EntityType="AgriExports.ReviewStatus">
+                    <NavigationPropertyBinding Path="texts" Target="ReviewStatus_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="ReviewStatus_texts"/>
+                </EntitySet>
+                <EntitySet Name="ExtYieldperArea" EntityType="AgriExports.ExtYieldperArea"/>
+                <EntitySet Name="YieldPerArea" EntityType="AgriExports.YieldPerArea">
+                    <NavigationPropertyBinding Path="Products" Target="Products"/>
+                    <NavigationPropertyBinding Path="Reviews" Target="YieldPerArea1"/>
+                </EntitySet>
+                <EntitySet Name="BuyerData" EntityType="AgriExports.BuyerData">
+                    <NavigationPropertyBinding Path="Region" Target="Regions"/>
+                    <NavigationPropertyBinding Path="Country" Target="Countries"/>
+                    <NavigationPropertyBinding Path="Address_country" Target="Countries"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="BuyerData"/>
+                </EntitySet>
+                <EntitySet Name="Currencies" EntityType="AgriExports.Currencies">
+                    <NavigationPropertyBinding Path="texts" Target="Currencies_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Currencies_texts"/>
+                </EntitySet>
+                <EntitySet Name="Regions" EntityType="AgriExports.Regions"/>
+                <EntitySet Name="Countries" EntityType="AgriExports.Countries">
+                    <NavigationPropertyBinding Path="texts" Target="Countries_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Countries_texts"/>
+                </EntitySet>
+                <EntitySet Name="ReviewStatus_texts" EntityType="AgriExports.ReviewStatus_texts"/>
+                <EntitySet Name="Currencies_texts" EntityType="AgriExports.Currencies_texts"/>
+                <EntitySet Name="Countries_texts" EntityType="AgriExports.Countries_texts"/>
+            </EntityContainer>
+            <EntityType Name="Procurement">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Area"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Year" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Area" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Product" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Grade" Type="Edm.String" MaxLength="5"/>
+                <Property Name="Area_size" Type="Edm.Int32"/>
+                <Property Name="Area_Qauality" Type="Edm.Int32"/>
+                <Property Name="Utlization" Type="Edm.Int32"/>
+                <Property Name="Sapling_qty" Type="Edm.Int32"/>
+                <Property Name="Sapling_price" Type="Edm.Int32"/>
+                <Property Name="Fertilizers_qty" Type="Edm.Int32"/>
+                <Property Name="Fertilizers_price" Type="Edm.Int32"/>
+                <Property Name="Labour_price" Type="Edm.Int32"/>
+                <Property Name="Readiness_cost" Type="Edm.Int32"/>
+                <Property Name="Water_cost" Type="Edm.Int32"/>
+                <Property Name="Electricity_cost" Type="Edm.Int32"/>
+                <Property Name="Govt_allowances" Type="Edm.Int32"/>
+                <Property Name="Other_expenses" Type="Edm.Int32"/>
+                <Property Name="Total_cost" Type="Edm.Int32"/>
+                <NavigationProperty Name="Expense_curr_key" Type="AgriExports.Currencies">
+                    <ReferentialConstraint Property="Expense_curr_key_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="Expense_curr_key_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="Area_Dimen_key" Type="Edm.String" MaxLength="5"/>
+                <Property Name="Fertilizer_Meas_key" Type="Edm.String" MaxLength="5"/>
+            </EntityType>
+            <EntityType Name="Products">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Area"/>
+                    <PropertyRef Name="Product"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Year" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Area" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Product" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Variety" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Weight" Type="Edm.Int32"/>
+                <Property Name="NoofLeaves" Type="Edm.Int32"/>
+                <Property Name="length" Type="Edm.Int32"/>
+                <NavigationProperty Name="ProductItem" Type="AgriExports.YieldPerArea1" Partner="Products">
+                    <ReferentialConstraint Property="ProductItem_ID" ReferencedProperty="ID"/>
+                    <ReferentialConstraint Property="ProductItem_Year" ReferencedProperty="Year"/>
+                    <ReferentialConstraint Property="ProductItem_Area" ReferencedProperty="Area"/>
+                </NavigationProperty>
+                <Property Name="ProductItem_ID" Type="Edm.Guid"/>
+                <Property Name="ProductItem_Year" Type="Edm.Int32"/>
+                <Property Name="ProductItem_Area" Type="Edm.String" MaxLength="10"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="AgriExports.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="AgriExports.Products"/>
+            </EntityType>
+            <EntityType Name="YieldPerArea1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Area"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Year" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Area" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Product" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Variety" Type="Edm.String" MaxLength="10"/>
+                <Property Name="NetWeight" Type="Edm.Int32"/>
+                <Property Name="TotalQty" Type="Edm.Int32"/>
+                <Property Name="AvgWeight" Type="Edm.Int32"/>
+                <Property Name="Review_Stat" Type="Edm.String"/>
+                <Property Name="Review_Criticality" Type="Edm.Int32"/>
+                <Property Name="Comments" Type="Edm.String"/>
+                <NavigationProperty Name="Products" Type="Collection(AgriExports.Products)" Partner="ProductItem"/>
+            </EntityType>
+            <EntityType Name="ReviewStatus">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="code" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="descr" Type="Edm.String"/>
+                <NavigationProperty Name="texts" Type="Collection(AgriExports.ReviewStatus_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="AgriExports.ReviewStatus_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="ExtYieldperArea">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Area"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Year" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Area" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Product" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Variety" Type="Edm.String" MaxLength="10"/>
+                <Property Name="NetWeight" Type="Edm.Int32"/>
+                <Property Name="TotalQty" Type="Edm.Int32"/>
+                <Property Name="AvgWeight" Type="Edm.Int32"/>
+                <Property Name="Review_Stat" Type="Edm.String" MaxLength="15"/>
+                <Property Name="Review_Criticality" Type="Edm.Int32"/>
+                <Property Name="Comments" Type="Edm.String" MaxLength="300"/>
+            </EntityType>
+            <EntityType Name="YieldPerArea">
+                <Key>
+                    <PropertyRef Name="Area"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Product"/>
+                </Key>
+                <Property Name="Area" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Year" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Product" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Variety" Type="Edm.String" MaxLength="10"/>
+                <Property Name="TotalQty" Type="Edm.Int32"/>
+                <Property Name="NetWeight" Type="Edm.Int32"/>
+                <Property Name="AvgWeight" Type="Edm.Int32"/>
+                <NavigationProperty Name="Products" Type="Collection(AgriExports.Products)"/>
+                <NavigationProperty Name="Reviews" Type="AgriExports.YieldPerArea1">
+                    <ReferentialConstraint Property="Area" ReferencedProperty="Area"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="BuyerData">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="Region" Type="AgriExports.Regions">
+                    <ReferentialConstraint Property="Region_Code" ReferencedProperty="Code"/>
+                </NavigationProperty>
+                <Property Name="Region_Code" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomerName" Type="Edm.String"/>
+                <Property Name="TradingCurrency" Type="Edm.String" MaxLength="3" DefaultValue="USD"/>
+                <Property Name="TradingCommodity" Type="Edm.String"/>
+                <Property Name="NearestPort" Type="Edm.String"/>
+                <NavigationProperty Name="Country" Type="AgriExports.Countries">
+                    <ReferentialConstraint Property="Country_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="Country_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="Address_street" Type="Edm.String"/>
+                <Property Name="Address_town" Type="Edm.String"/>
+                <Property Name="Address_Pincode" Type="Edm.Int32"/>
+                <NavigationProperty Name="Address_country" Type="AgriExports.Countries">
+                    <ReferentialConstraint Property="Address_country_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="Address_country_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="Address_region" Type="Edm.String"/>
+                <Property Name="BuyerType" Type="Edm.String"/>
+                <Property Name="BuyerCapacity" Type="Edm.Int32"/>
+                <Property Name="BuyingFrequency" Type="Edm.Int32"/>
+                <Property Name="PackingType" Type="Edm.String"/>
+                <Property Name="Contactno" Type="Edm.Int32"/>
+                <Property Name="Email" Type="Edm.String"/>
+                <Property Name="Website" Type="Edm.String"/>
+                <Property Name="PaymentTerm" Type="Edm.String"/>
+                <Property Name="Buyer_Rating" Type="Edm.Int32"/>
+                <Property Name="Activity_months" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="AgriExports.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="AgriExports.BuyerData"/>
+            </EntityType>
+            <EntityType Name="Currencies">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="symbol" Type="Edm.String" MaxLength="5"/>
+                <NavigationProperty Name="texts" Type="Collection(AgriExports.Currencies_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="AgriExports.Currencies_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Regions">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="descr" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Countries">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(AgriExports.Countries_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="AgriExports.Countries_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <EntityType Name="ReviewStatus_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="code" Type="Edm.Int32" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Currencies_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Countries_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+            </EntityType>
+            <ComplexType Name="Actionret">
+                <Property Name="Area" Type="Edm.String"/>
+                <Property Name="Review_Stat" Type="Edm.String"/>
+                <Property Name="Comments" Type="Edm.String"/>
+            </ComplexType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.Products"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="AgriExports.Products"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.BuyerData"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="AgriExports.BuyerData"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.Products"/>
+                <ReturnType Type="AgriExports.Products"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.BuyerData"/>
+                <ReturnType Type="AgriExports.BuyerData"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.Products"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="AgriExports.Products"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="AgriExports.BuyerData"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="AgriExports.BuyerData"/>
+            </Action>
+            <Action Name="ReviewState" IsBound="true">
+                <Parameter Name="_it" Type="AgriExports.YieldPerArea"/>
+                <Parameter Name="Area" Type="Edm.String"/>
+                <Parameter Name="Review_Stat" Type="Edm.String"/>
+                <Parameter Name="Comments" Type="Edm.String"/>
+            </Action>
+            <Function Name="getYieldArea" IsBound="true" IsComposable="false">
+                <Parameter Name="in" Type="AgriExports.YieldPerArea"/>
+                <ReturnType Type="AgriExports.Actionret"/>
+            </Function>
+            <Annotations Target="AgriExports.Procurement/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/Expense_curr_key">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Procurement/Expense_curr_key_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Expense_curr_key_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="AgriExports.EntityContainer/Products">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="AgriExports.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="AgriExports.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="AgriExports.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/Weight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/length">
+                <Annotation Term="Measures.Unit" String="cm"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Products/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1">
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="TotalQty" String="Edm.Decimal"/>
+            </Annotations>
+            <Annotations Target="AgriExports.EntityContainer/YieldPerArea1">
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="TotalQty" String="Edm.Decimal"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/Year">
+                <Annotation Term="Validation.Minimum" Int="2000"/>
+                <Annotation Term="Validation.Maximum" Int="9999"/>
+                <Annotation Term="Common.Label" String="Year"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/Area">
+                <Annotation Term="Common.Label" String="Area"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/NetWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+                <Annotation Term="Common.IsUnit" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/AvgWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea1/Comments">
+                <Annotation Term="Common.Label" String="Rework Required"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewStatus">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewStatus/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/Year">
+                <Annotation Term="Validation.Minimum" Int="2000"/>
+                <Annotation Term="Validation.Maximum" Int="9999"/>
+                <Annotation Term="Common.Label" String="Year"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/Area">
+                <Annotation Term="Common.Label" String="Area"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/NetWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+                <Annotation Term="Common.IsUnit" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/AvgWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ExtYieldperArea/Comments">
+                <Annotation Term="Common.Label" String="Rework Required"/>
+            </Annotations>
+            <Annotations Target="AgriExports.EntityContainer/YieldPerArea">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea/TotalQty">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea/NetWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.YieldPerArea/AvgWeight">
+                <Annotation Term="Measures.Unit" String="Kg"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewState(AgriExports.YieldPerArea)/Area">
+                <Annotation Term="UI.ParameterDefaultValue" Path="_it/Area"/>
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/ReadOnly"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewState(AgriExports.YieldPerArea)/Review_Stat">
+                <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="ReviewStatus"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Review_Stat"/>
+                                    <PropertyValue Property="ValueListProperty" String="descr"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.Label" String="Review Status"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewState(AgriExports.YieldPerArea)/Comments">
+                <Annotation Term="UI.MultiLineText" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.EntityContainer/BuyerData">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="AgriExports.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="AgriExports.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="AgriExports.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/Region_Code">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Regions"/>
+                        <PropertyValue Property="CollectionPath" String="Regions"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Region_Code"/>
+                                    <PropertyValue Property="ValueListProperty" String="Code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/Country">
+                <Annotation Term="Common.Label" String="Country"/>
+                <Annotation Term="Core.Description" String="Country code as specified by ISO 3166-1"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/Country_code">
+                <Annotation Term="Common.Label" String="Country"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Country"/>
+                        <PropertyValue Property="CollectionPath" String="Countries"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Country_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Country code as specified by ISO 3166-1"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/Address_country">
+                <Annotation Term="Common.Label" String="Country"/>
+                <Annotation Term="Core.Description" String="Country code as specified by ISO 3166-1"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/Address_country_code">
+                <Annotation Term="Common.Label" String="Country"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Country"/>
+                        <PropertyValue Property="CollectionPath" String="Countries"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Address_country_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Country code as specified by ISO 3166-1"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.BuyerData/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Currency Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies/symbol">
+                <Annotation Term="Common.Label" String="Currency Symbol"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Regions">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Country Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="Draft Administrative Data"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="Draft Created On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="Draft Created By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft Created By Me"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="Draft Last Changed On"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="Draft Last Changed By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="Draft In Process By"/>
+            </Annotations>
+            <Annotations Target="AgriExports.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft In Process By Me"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewStatus_texts/locale">
+                <Annotation Term="Common.Label" String="Language Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.ReviewStatus_texts/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies_texts/locale">
+                <Annotation Term="Common.Label" String="Language Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies_texts/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies_texts/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Currencies_texts/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Currency Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries_texts/locale">
+                <Annotation Term="Common.Label" String="Language Code"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries_texts/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries_texts/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="AgriExports.Countries_texts/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Country Code"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
